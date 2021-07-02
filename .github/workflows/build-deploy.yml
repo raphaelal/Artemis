@@ -94,7 +94,7 @@ jobs:
     - name: Download Dockerfile
       run: |
         curl \
-          -O https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/src/main/docker/Dockerfile
+          -O https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/src/main/docker/Dockerfile \ 
           -O https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/src/main/docker/entrypoint.sh
     - name: Build Docker Image
       run: docker build -t ghcr.io/ls1intum/Artemis:latest
