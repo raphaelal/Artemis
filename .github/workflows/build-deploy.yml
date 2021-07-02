@@ -83,6 +83,22 @@ jobs:
         asset_name: Artemis.war
         asset_content_type: application/x-webarchive
 
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Artemis.war
+    - name: Download Dockerfile
+      run: curl https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/src/main/docker/Dockerfile
+    - name: Build Docker Image
+      run: docker build -t ghcr.io/ls1intum/Artemis:latest
+    # TODO: Push to GitHub Container Registry (develop + tag + open prs maybe)
+    # TODO: Push to Docker Hub (develop + tag)
+    # TODO: Push to Chair Habour (??)
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -161,7 +177,7 @@ jobs:
     # Downlaod artemis-server-cli from GH without cloning the Repo
     - name: Fetch Artemis CLI
       run: |
-        wget https://raw.githubusercontent.com/ls1intum/Artemis/develop/artemis-server-cli
+        wget https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/artemis-server-cli
         chmod +x artemis-server-cli
 
     - name: Deploy Artemis WAR artifact
