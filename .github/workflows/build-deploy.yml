@@ -35,6 +35,7 @@ env:
   CI: true
   node: 14.x
   java: 16
+  RAW_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}
 
 jobs:
 
@@ -92,10 +93,7 @@ jobs:
       with:
         name: Artemis.war
     - name: Download Dockerfile
-      run: >
-        curl
-        -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/Dockerfile
-        -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/entrypoint.sh
+      run: curl -O $RAW_URL/src/main/docker/Dockerfile -O $RAW_URL/src/main/docker/entrypoint.sh
     - name: Build Docker Image
       run: docker build -t ghcr.io/ls1intum/Artemis:latest
     # TODO: Push to GitHub Container Registry (develop + tag + open prs maybe)
@@ -149,7 +147,7 @@ jobs:
     # Downlaod artemis-server-cli from GH without cloning the Repo
     - name: Fetch Artemis CLI
       run: |
-        wget https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/artemis-server-cli
+        wget $RAW_URL/artemis-server-cli
         chmod +x artemis-server-cli
 
     - name: Install vpnc
