@@ -95,7 +95,7 @@ jobs:
     - name: Download Dockerfile
       run: curl -O $RAW_URL/src/main/docker/Dockerfile -O $RAW_URL/src/main/docker/entrypoint.sh
     - name: Build Docker Image
-      run: docker build -t ghcr.io/ls1intum/Artemis:latest
+      run: docker build -t ghcr.io/ls1intum/artemis:latest
     # TODO: Push to GitHub Container Registry (develop + tag + open prs maybe)
     # TODO: Push to Docker Hub (develop + tag)
     # TODO: Push to Chair Habour (??)
