@@ -94,8 +94,8 @@ jobs:
     - name: Download Dockerfile
       run: |
         curl \
-          -O https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/src/main/docker/Dockerfile \ 
-          -O https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/src/main/docker/entrypoint.sh
+          -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/Dockerfile \ 
+          -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/entrypoint.sh
     - name: Build Docker Image
       run: docker build -t ghcr.io/ls1intum/Artemis:latest
     # TODO: Push to GitHub Container Registry (develop + tag + open prs maybe)
@@ -146,6 +146,12 @@ jobs:
       id: artifact-name
       run: echo "::set-output name=war-file::$(ls)"
 
+    # Downlaod artemis-server-cli from GH without cloning the Repo
+    - name: Fetch Artemis CLI
+      run: |
+        wget https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/artemis-server-cli
+        chmod +x artemis-server-cli
+
     - name: Install vpnc
       run: sudo apt-get install vpnc
     # Fill config from Secret (https://www.lrz.de/services/netz/mobil/vpnpda/)
@@ -176,12 +182,6 @@ jobs:
           done
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< $SSH_PRIVATE_KEY
-
-    # Downlaod artemis-server-cli from GH without cloning the Repo
-    - name: Fetch Artemis CLI
-      run: |
-        wget https://raw.githubusercontent.com/ls1intum/Artemis/$GITHUB_SHA/artemis-server-cli
-        chmod +x artemis-server-cli
 
     - name: Deploy Artemis WAR artifact
       env:
