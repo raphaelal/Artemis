@@ -94,8 +94,8 @@ jobs:
     - name: Download Dockerfile
       run: >
         curl
-          -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/Dockerfile
-          -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/entrypoint.sh
+        -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/Dockerfile
+        -O https://raw.githubusercontent.com/ls1intum/Artemis/${{ github.sha }}/src/main/docker/entrypoint.sh
     - name: Build Docker Image
       run: docker build -t ghcr.io/ls1intum/Artemis:latest
     # TODO: Push to GitHub Container Registry (develop + tag + open prs maybe)
