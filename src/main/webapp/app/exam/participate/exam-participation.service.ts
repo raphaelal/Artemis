@@ -254,7 +254,7 @@ export class ExamParticipationService {
         }
     }
 
-    getExerciseButtonTooltip(exercise: Exercise): 'submitted' | 'notSubmitted' | 'synced' | 'notSynced' | 'notSavedOrSubmitted' {
+    getExerciseButtonTooltip(exercise: Exercise): 'submitted' | 'notSubmitted' | 'synced' | 'notSynced' | 'notSavedOrSubmitted' | 'notStarted' {
         const submission = ExamParticipationService.getSubmissionForExercise(exercise);
         // The submission might not yet exist for this exercise.
         // When the participant navigates to the exercise the submissions are created.
@@ -263,6 +263,9 @@ export class ExamParticipationService {
             return 'synced';
         }
         if (exercise.type !== ExerciseType.PROGRAMMING) {
+            if (!submission.submitted && submission.isSynced) {
+                return 'notStarted';
+            }
             return submission.isSynced ? 'synced' : 'notSynced';
         }
         // programming exercise

@@ -157,6 +157,7 @@
             "bonus": "bonus points",
             "synced": "Exercise saved",
             "notSynced": "Exercise not saved",
+            "notStarted": "Exercise not started yet",
             "submitted": "You have submitted a solution for this exercise. You can still work on it and submit again.",
             "notSubmitted": "Exercise not submitted",
             "notSavedOrSubmitted": "You have unsubmitted changes",

@@ -156,6 +156,7 @@
             "bonus": "Bonus Punkte",
             "synced": "Aufgabe gespeichert",
             "notSynced": "Aufgabe nicht gespeichert",
+            "notStarted": "Aufgabe noch nicht begonnen",
             "submitted": "Du hast eine Lösung für die Aufgabe eingereicht. Du kannst die Aufgabe weiter bearbeiten und erneut abgeben.",
             "notSubmitted": "Aufgabe nicht eingereicht",
             "notSavedOrSubmitted": "Du hast Änderungen, die nicht abgesendet sind",
