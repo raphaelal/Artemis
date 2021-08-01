@@ -19,15 +19,6 @@ import { CourseManagementService } from 'app/course/manage/course-management.ser
 import { SortService } from 'app/shared/service/sort.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { ExamInformationDTO } from 'app/entities/exam-information.model';
-import { JhiEventManager, JhiSortDirective } from 'ng-jhipster';
-import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.directive';
-import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
-import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
-import { ArtemisDatePipe } from 'app/shared/pipes/artemis-date.pipe';
-import { MockRouterLinkDirective } from '../../lecture-unit/lecture-unit-management.component.spec';
-import { AlertComponent } from 'app/shared/alert/alert.component';
-import { DurationPipe } from 'app/shared/pipes/artemis-duration.pipe';
-import { DeleteButtonDirective } from 'app/shared/delete-dialog/delete-button.directive';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -44,7 +35,7 @@ describe('Exam Management Component', () => {
     let courseManagementService: CourseManagementService;
     let sortService: SortService;
     let accountService: AccountService;
-    let eventManager: JhiEventManager;
+    let eventManager: EventManager;
 
     const route = { snapshot: { paramMap: convertToParamMap({ courseId: course.id }) }, url: new Observable<UrlSegment[]>() } as any as ActivatedRoute;
 
@@ -67,7 +58,7 @@ describe('Exam Management Component', () => {
                 { provide: LocalStorageService, useClass: MockSyncStorage },
                 { provide: TranslateService, useClass: MockTranslateService },
                 { provide: ActivatedRoute, useValue: route },
-                JhiEventManager,
+                EventManager,
             ],
         }).compileComponents();
 
@@ -77,7 +68,7 @@ describe('Exam Management Component', () => {
         courseManagementService = TestBed.inject(CourseManagementService);
         sortService = TestBed.inject(SortService);
         accountService = TestBed.inject(AccountService);
-        eventManager = TestBed.inject(JhiEventManager);
+        eventManager = TestBed.inject(EventManager);
     });
 
     afterEach(function () {

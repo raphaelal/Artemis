@@ -30,7 +30,7 @@ import { TextAssessmentService } from 'app/exercises/text/assess/text-assessment
 import { TextBlock } from 'app/entities/text-block.model';
 import { Feedback, FeedbackType } from 'app/entities/feedback.model';
 import { ComplaintResponse } from 'app/entities/complaint-response.model';
-import { JhiAlertService } from 'ng-jhipster';
+import { AlertService } from 'app/core/util/alert.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SubmissionService } from 'app/exercises/shared/submission/submission.service';
 import { GradingInstructionLinkIconComponent } from 'app/shared/grading-instruction-link-icon/grading-instruction-link-icon.component';
@@ -240,8 +240,8 @@ describe('TextSubmissionAssessmentComponent', () => {
     it('should display error when complaint resolved but assessment invalid', () => {
         // would be called on receive of event
         const complaintResponse = new ComplaintResponse();
-        const alertService = fixture.debugElement.injector.get(JhiAlertService);
-        const errorStub = stub(alertService, 'error');
+        const alertService = fixture.debugElement.injector.get(AlertService);
+        spyOn(alertService, 'error');
 
         component.updateAssessmentAfterComplaint(complaintResponse);
         expect(errorStub).to.have.been.calledWith('artemisApp.textAssessment.error.invalidAssessments');

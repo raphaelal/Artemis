@@ -21,7 +21,6 @@ import { HasAnyAuthorityDirective } from 'app/shared/auth/has-any-authority.dire
 import { DeleteButtonDirective } from 'app/shared/delete-dialog/delete-button.directive';
 import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
 import * as moment from 'moment';
-import { JhiEventManager } from 'ng-jhipster';
 import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
 import { of } from 'rxjs';
 import { MockNgbModalService } from '../../../helpers/mocks/service/mock-ngb-modal.service';
@@ -32,6 +31,7 @@ import { FileUploadExerciseGroupCellComponent } from 'app/exam/manage/exercise-g
 import { ModelingExerciseGroupCellComponent } from 'app/exam/manage/exercise-groups/modeling-exercise-cell/modeling-exercise-group-cell.component';
 import { ProgrammingExerciseGroupCellComponent } from 'app/exam/manage/exercise-groups/programming-exercise-cell/programming-exercise-group-cell.component';
 import { QuizExerciseGroupCellComponent } from 'app/exam/manage/exercise-groups/quiz-exercise-cell/quiz-exercise-group-cell.component';
+import { EventManager } from 'app/core/util/event-manager.service';
 
 describe('Exercise Groups Component', () => {
     const course = new Course();
@@ -48,7 +48,7 @@ describe('Exercise Groups Component', () => {
 
     let exerciseGroupService: ExerciseGroupService;
     let examManagementService: ExamManagementService;
-    let jhiEventManager: JhiEventManager;
+    let eventManager: EventManager;
     let modalService: NgbModal;
     let router: Router;
 
@@ -85,7 +85,7 @@ describe('Exercise Groups Component', () => {
 
         exerciseGroupService = TestBed.inject(ExerciseGroupService);
         examManagementService = TestBed.inject(ExamManagementService);
-        jhiEventManager = TestBed.inject(JhiEventManager);
+        eventManager = TestBed.inject(EventManager);
         modalService = TestBed.inject(NgbModal);
         router = TestBed.inject(Router);
 
@@ -148,7 +148,7 @@ describe('Exercise Groups Component', () => {
         comp.exerciseGroups = groups;
 
         spyOn(exerciseGroupService, 'delete').and.returnValue(of({}));
-        spyOn(jhiEventManager, 'broadcast');
+        spyOn(eventManager, 'broadcast');
 
         comp.deleteExerciseGroup(0, {});
         tick();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseManagementService } from 'app/course/manage/course-management.service';
-import { JhiAlertService } from 'ng-jhipster';
+import { AlertService } from 'app/core/util/alert.service';
 import { calculateSubmissionStatusIsDraft, Submission } from 'app/entities/submission.model';
 import { Exercise, ExerciseType } from 'app/entities/exercise.model';
 import { ExerciseView, OrionState } from 'app/shared/orion/orion';
@@ -29,14 +29,14 @@ export class OrionExerciseAssessmentDashboardComponent implements OnInit {
         private exerciseService: ExerciseService,
         private orionAssessmentService: OrionAssessmentService,
         private orionConnectorService: OrionConnectorService,
-        private jhiAlertService: JhiAlertService,
+        private alertService: AlertService,
     ) {}
 
     ngOnInit(): void {
         this.exerciseId = Number(this.route.snapshot.paramMap.get('exerciseId'));
         this.exerciseService.getForTutors(this.exerciseId).subscribe(
             (res) => (this.exercise = res.body!),
-            (error) => onError(this.jhiAlertService, error),
+            (error) => onError(this.alertService, error),
         );
 
         this.orionConnectorService.state().subscribe((state) => (this.orionState = state));
@@ -51,6 +51,41 @@ export class OrionExerciseAssessmentDashboardComponent implements OnInit {
 
     /**
      * Delegates to the {@link OrionAssessmentService} to load a new submission
+     */
+    private sendSubmissionToOrion(exerciseId: number, submissionId: number, correctionRound = 0) {
+        this.orionConnectorService.isCloning(true);
+        const exportOptions: RepositoryExportOptions = {
+            exportAllParticipants: false,
+            filterLateSubmissions: false,
+            addParticipantName: false,
+            combineStudentCommits: false,
+            anonymizeStudentCommits: true,
+            normalizeCodeStyle: false,
+            hideStudentNameInZippedFolder: true,
+        };
+        this.programmingSubmissionService.lockAndGetProgrammingSubmissionParticipation(submissionId, correctionRound).subscribe((programmingSubmission) => {
+            this.repositoryExportService.exportReposByParticipations(exerciseId, [programmingSubmission.participation!.id!], exportOptions).subscribe((response) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const result = reader.result as string;
+                    // remove prefix
+                    const base64data = result.substr(result.indexOf(',') + 1);
+                    this.orionConnectorService.downloadSubmission(submissionId, correctionRound, base64data);
+                };
+                reader.onerror = () => {
+                    this.alertService.error('artemisApp.assessmentDashboard.orion.downloadFailed');
+                };
+                reader.readAsDataURL(response.body!);
+            });
+        });
+    }
+
+    /**
+     * Retrieves a new submission if necessary and then delegates to the
+     * {@link programmingSubmissionService} to download the submission
+     *
+     * @param submission submission to send to Orion or 'new' if a new one should be loaded
+     * @param correctionRound correction round
      */
     downloadSubmissionInOrion(submission: Submission | 'new', correctionRound = 0) {
         this.orionAssessmentService.downloadSubmissionInOrion(this.exerciseId, submission, correctionRound);

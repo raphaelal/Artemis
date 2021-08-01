@@ -11,7 +11,8 @@ import { OrionConnectorService } from 'app/shared/orion/orion-connector.service'
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { JhiAlertService } from 'ng-jhipster';
+import { AlertService } from 'app/core/util/alert.service';
+import { ProgrammingAssessmentRepoExportService } from 'app/exercises/programming/assess/repo-export/programming-assessment-repo-export.service';
 import { ArtemisTestModule } from '../../test.module';
 import { ExerciseAssessmentDashboardComponent } from 'app/exercises/shared/dashboards/tutor/exercise-assessment-dashboard.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,7 +51,7 @@ describe('OrionExerciseAssessmentDashboardComponent', () => {
                 MockProvider(OrionConnectorService),
                 MockProvider(OrionAssessmentService),
                 MockProvider(ExerciseService),
-                MockProvider(JhiAlertService),
+                MockProvider(AlertService),
                 MockProvider(TranslateService),
                 { provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ exerciseId: 10 }) } } },
             ],
@@ -80,6 +81,77 @@ describe('OrionExerciseAssessmentDashboardComponent', () => {
         comp.downloadSubmissionInOrion(programmingSubmission, 2);
 
         expect(downloadSubmissionSpy).to.have.been.calledOnceWith(comp.exerciseId, programmingSubmission, 2);
+    });
+    it('downloadSubmissionInOrion with number should call send', () => {
+        const sendSubmissionToOrion = stub(comp, <any>'sendSubmissionToOrion');
+
+        comp.downloadSubmissionInOrion(programmingSubmission, 0);
+
+        expect(sendSubmissionToOrion).to.have.been.calledOnceWithExactly(programmingExercise.id, programmingSubmission.id, 0);
+    });
+    it('sendSubmissionToOrion should convert and call connector', () => {
+        const downloadSubmissionSpy = spy(orionConnectorService, 'downloadSubmission');
+        const isCloningSpy = spy(orionConnectorService, 'isCloning');
+        const exportSubmissionStub = stub(programmingAssessmentExportService, 'exportReposByParticipations');
+        const lockAndGetStub = stub(programmingSubmissionService, 'lockAndGetProgrammingSubmissionParticipation');
+
+        // first it loads the submission
+        lockAndGetStub.returns(of(programmingSubmission));
+        // then the exported file
+        const response = new HttpResponse({ body: new Blob(['Stuff', 'in blob']), status: 200 });
+        exportSubmissionStub.returns(of(response));
+
+        // mock FileReader
+        const mockReader = {
+            result: 'testBase64',
+            // required, used to instantly trigger the callback
+            // @ts-ignore
+            readAsDataURL() {
+                this.onloadend();
+            },
+        };
+        readerStub.returns(mockReader);
+
+        comp.downloadSubmissionInOrion(programmingSubmission, 0);
+
+        expect(isCloningSpy).to.have.been.calledOnceWithExactly(true);
+        expect(lockAndGetStub).to.have.been.calledOnceWith(11, 0);
+        // ignore RepositoryExportOptions
+        expect(exportSubmissionStub).to.have.been.calledOnceWith(16, [1]);
+        expect(readerStub).to.have.been.calledOnce;
+        expect(downloadSubmissionSpy).to.have.been.calledOnceWithExactly(11, 0, 'testBase64');
+    });
+    it('sendSubmissionToOrion should convert and report error', () => {
+        const isCloningSpy = spy(orionConnectorService, 'isCloning');
+        const lockAndGetStub = stub(programmingSubmissionService, 'lockAndGetProgrammingSubmissionParticipation');
+        const exportSubmissionStub = stub(programmingAssessmentExportService, 'exportReposByParticipations');
+        const errorSpy = spy(TestBed.inject(AlertService), 'error');
+
+        // first it loads the submission
+        lockAndGetStub.returns(of(programmingSubmission));
+        // then the exported file
+        const response = new HttpResponse({ body: new Blob(['Stuff', 'in blob']), status: 200 });
+        exportSubmissionStub.returns(of(response));
+
+        // mock FileReader
+        const mockReader = {
+            result: 'testBase64',
+            // required, used to instantly trigger the callback
+            // @ts-ignore
+            readAsDataURL() {
+                this.onerror();
+            },
+        };
+        readerStub.returns(mockReader);
+
+        comp.downloadSubmissionInOrion(programmingSubmission);
+
+        expect(isCloningSpy).to.have.been.calledOnceWithExactly(true);
+        expect(lockAndGetStub).to.have.been.calledOnceWith(11, 0);
+        // ignore RepositoryExportOptions
+        expect(exportSubmissionStub).to.have.been.calledOnceWith(16, [1]);
+        expect(readerStub).to.have.been.calledOnce;
+        expect(errorSpy).to.have.been.calledOnceWithExactly('artemisApp.assessmentDashboard.orion.downloadFailed');
     });
     it('ngOnInit should subscribe correctly', fakeAsync(() => {
         const orionState = { opened: 40, building: false, cloning: false } as OrionState;
@@ -111,7 +183,7 @@ describe('OrionExerciseAssessmentDashboardComponent', () => {
         const getForTutorsStub = stub(TestBed.inject(ExerciseService), 'getForTutors');
         getForTutorsStub.returns(throwError(error));
 
-        const errorSpy = spy(TestBed.inject(JhiAlertService), 'error');
+        const errorSpy = spy(TestBed.inject(AlertService), 'error');
         // counter the initialization in beforeEach
         comp.exercise = undefined as any;
 

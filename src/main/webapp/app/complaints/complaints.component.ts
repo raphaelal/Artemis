@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { JhiAlertService } from 'ng-jhipster';
+import { AlertService } from 'app/core/util/alert.service';
 import { ComplaintService } from 'app/complaints/complaint.service';
 import { Result } from 'app/entities/result.model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -36,7 +36,7 @@ export class ComplaintsComponent implements OnInit {
     ComplaintType = ComplaintType;
     loaded = true;
 
-    constructor(private complaintService: ComplaintService, private jhiAlertService: JhiAlertService, private complaintResponseService: ComplaintResponseService) {}
+    constructor(private complaintService: ComplaintService, private alertService: AlertService, private complaintResponseService: ComplaintResponseService) {}
 
     ngOnInit(): void {
         this.complaintService
@@ -56,7 +56,7 @@ export class ComplaintsComponent implements OnInit {
                     }
                 },
                 (error: HttpErrorResponse) => {
-                    onError(this.jhiAlertService, error);
+                    onError(this.alertService, error);
                 },
             );
     }
@@ -83,9 +83,9 @@ export class ComplaintsComponent implements OnInit {
             (err: HttpErrorResponse) => {
                 this.loaded = true;
                 if (err && err.error && err.error.errorKey === 'toomanycomplaints') {
-                    this.jhiAlertService.error('artemisApp.complaint.tooManyComplaints', { maxComplaintNumber: this.maxComplaintsPerCourse });
+                    this.alertService.error('artemisApp.complaint.tooManyComplaints', { maxComplaintNumber: this.maxComplaintsPerCourse });
                 } else {
-                    onError(this.jhiAlertService, err);
+                    onError(this.alertService, err);
                 }
             },
         );
