@@ -19,6 +19,7 @@ import { CourseManagementService } from 'app/course/manage/course-management.ser
 import { SortService } from 'app/shared/service/sort.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { ExamInformationDTO } from 'app/entities/exam-information.model';
+import { EventManager } from 'app/core/util/event-manager.service';
 
 chai.use(sinonChai);
 const expect = chai.expect;

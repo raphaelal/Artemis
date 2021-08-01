@@ -16,12 +16,11 @@ import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
 import { ReEvaluateDragAndDropQuestionComponent } from 'app/exercises/quiz/manage/re-evaluate/drag-and-drop-question/re-evaluate-drag-and-drop-question.component';
 import { ReEvaluateShortAnswerQuestionComponent } from 'app/exercises/quiz/manage/re-evaluate/short-answer-question/re-evaluate-short-answer-question.component';
 import { NgModel } from '@angular/forms';
-import { JhiTranslateDirective } from 'ng-jhipster';
 import { ArtemisDatePipe } from 'app/shared/pipes/artemis-date.pipe';
 import { MultipleChoiceQuestion } from 'app/entities/quiz/multiple-choice-question.model';
 import { DragAndDropQuestion } from 'app/entities/quiz/drag-and-drop-question.model';
 import { QuizReEvaluateWarningComponent } from 'app/exercises/quiz/manage/re-evaluate/quiz-re-evaluate-warning.component';
-import { MockTranslateValuesDirective } from '../../helpers/mocks/directive/mock-translate-values.directive';
+import { TranslateDirective } from 'app/shared/language/translate.directive';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -46,7 +45,7 @@ describe('QuizExercise Re-evaluate Warning Component', () => {
                 MockComponent(ReEvaluateDragAndDropQuestionComponent),
                 MockComponent(ReEvaluateShortAnswerQuestionComponent),
                 MockTranslateValuesDirective,
-                MockDirective(JhiTranslateDirective),
+                MockDirective(TranslateDirective),
                 MockPipe(ArtemisDatePipe),
             ],
             providers: [NgbModal, NgbActiveModal, { provide: TranslateService, useClass: MockTranslateService }],

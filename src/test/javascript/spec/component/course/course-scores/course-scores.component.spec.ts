@@ -18,7 +18,6 @@ import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
 import { round } from 'app/shared/util/utils';
 import * as chai from 'chai';
 import * as moment from 'moment';
-import { JhiSortByDirective, JhiSortDirective, JhiTranslateDirective } from 'ng-jhipster';
 import { MockComponent, MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 import { MomentModule } from 'ngx-moment';
 import { of } from 'rxjs';
@@ -29,7 +28,9 @@ import { ArtemisTestModule } from '../../../test.module';
 import { GradeType, GradingScale } from 'app/entities/grading-scale.model';
 import { GradingSystemService } from 'app/grading-system/grading-system.service';
 import { GradeStep } from 'app/entities/grade-step.model';
-import { MockTranslateValuesDirective } from '../../../helpers/mocks/directive/mock-translate-values.directive';
+import { SortByDirective } from 'app/shared/sort/sort-by.directive';
+import { SortDirective } from 'app/shared/sort/sort.directive';
+import { TranslateDirective } from 'app/shared/language/translate.directive';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -231,10 +232,10 @@ describe('CourseScoresComponent', () => {
                 MockPipe(ArtemisTranslatePipe),
                 MockPipe(ArtemisDatePipe),
                 MockDirective(OrionFilterDirective),
-                MockDirective(JhiSortByDirective),
-                MockDirective(JhiSortDirective),
+                MockDirective(SortByDirective),
+                MockDirective(SortDirective),
                 MockDirective(DeleteButtonDirective),
-                MockDirective(JhiTranslateDirective),
+                MockDirective(TranslateDirective),
                 MockTranslateValuesDirective,
             ],
             providers: [

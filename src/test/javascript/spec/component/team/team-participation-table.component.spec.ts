@@ -4,7 +4,6 @@ import * as chai from 'chai';
 import * as sinonChai from 'sinon-chai';
 import { ArtemisTestModule } from '../../test.module';
 import { By } from '@angular/platform-browser';
-import { NgJhipsterModule } from 'ng-jhipster';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from 'app/exercises/shared/team/team.service';
 import { ExerciseService } from 'app/exercises/shared/exercise/exercise.service';
@@ -164,8 +163,8 @@ describe('TeamParticipationTableComponent', () => {
     beforeEach(async () => {
         router = new MockRouter();
         return TestBed.configureTestingModule({
-            imports: [ArtemisTestModule, MockModule(NgxDatatableModule), MockModule(RouterModule), MockModule(NgJhipsterModule), MockModule(NgbModule)],
-            declarations: [TeamParticipationTableComponent, MockComponent(DataTableComponent), MockPipe(ArtemisTranslatePipe), MockPipe(ArtemisDatePipe)],
+            imports: [ArtemisTestModule, ArtemisDataTableModule, MockModule(NgxDatatableModule), MockModule(RouterModule), MockModule(NgbModule)],
+            declarations: [TeamParticipationTableComponent, MockPipe(ArtemisTranslatePipe), MockPipe(ArtemisDatePipe)],
             providers: [
                 MockProvider(TranslateService),
                 ExerciseService,
