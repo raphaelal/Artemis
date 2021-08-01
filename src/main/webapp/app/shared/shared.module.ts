@@ -22,7 +22,7 @@ import { CustomMinDirective } from 'app/shared/validators/custom-min-validator.d
 import { OrganizationSelectorComponent } from './organization-selector/organization-selector.component';
 import { AdditionalFeedbackComponent } from './additional-feedback/additional-feedback.component';
 import { ResizeableContainerComponent } from './resizeable-container/resizeable-container.component';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { StatisticsGraphComponent } from 'app/shared/statistics-graph/statistics-graph.component';
 import { StatisticsAverageScoreGraphComponent } from 'app/shared/statistics-graph/statistics-average-score-graph.component';
 import { StatisticsScoreDistributionGraphComponent } from 'app/shared/statistics-graph/statistics-score-distribution-graph.component';
@@ -37,6 +37,7 @@ import { CustomPatternValidatorDirective } from 'app/shared/validators/custom-pa
     imports: [ArtemisSharedLibsModule, ArtemisSharedCommonModule, ArtemisSharedPipesModule, RouterModule],
     declarations: [
         ArtemisDatePipe,
+        TranslateDirective,
         CircularProgressBarComponent,
         ArtemisDurationFromSecondsPipe,
         HasAnyAuthorityDirective,
@@ -65,6 +66,7 @@ import { CustomPatternValidatorDirective } from 'app/shared/validators/custom-pa
     entryComponents: [DeleteDialogComponent],
     exports: [
         ArtemisDatePipe,
+        TranslateDirective,
         ArtemisDurationFromSecondsPipe,
         ArtemisSharedLibsModule,
         CircularProgressBarComponent,
