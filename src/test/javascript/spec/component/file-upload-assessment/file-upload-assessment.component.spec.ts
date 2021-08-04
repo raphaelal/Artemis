@@ -132,6 +132,7 @@ describe('FileUploadAssessmentComponent', () => {
     });
 
     afterEach(() => {
+        getFileUploadSubmissionForExerciseWithoutAssessmentStub.restore();
         sinon.restore();
     });
 
@@ -453,7 +454,7 @@ describe('FileUploadAssessmentComponent', () => {
             const complaintResponse = new ComplaintResponse();
             comp.onUpdateAssessmentAfterComplaint(complaintResponse);
             expect(comp.isLoading).to.be.false;
-            sinon.assert.calledOnceWithExactly(alertServiceErrorSpy, 'errormessage');
+            expect(alertServiceErrorSpy).to.have.been.calledOnceWithExactly('errormessage', []);
         });
 
         it('should not update assessment after complaint', () => {
