@@ -505,7 +505,8 @@ export class CodeEditorTutorAssessmentContainerComponent implements OnInit, OnDe
     }
 
     private getComplaint(): void {
-        if (!this.submission) {
+        const resultWithComplaint = getFirstResultWithComplaint(this.submission);
+        if (!resultWithComplaint) {
             return;
         }
         this.complaintService.findBySubmissionId(this.submission.id!).subscribe(
