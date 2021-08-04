@@ -23,12 +23,12 @@ import { Course } from 'app/entities/course.model';
 import { Submission, SubmissionExerciseType } from 'app/entities/submission.model';
 import { MockRouter } from '../../helpers/mocks/service/mock-route.service';
 import { Router, RouterModule } from '@angular/router';
-import { MockComponent, MockModule, MockPipe, MockProvider } from 'ng-mocks';
+import { MockDirective, MockModule, MockPipe, MockProvider } from 'ng-mocks';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
 import { ArtemisDatePipe } from 'app/shared/pipes/artemis-date.pipe';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { TranslateDirective } from 'app/shared/language/translate.directive';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -164,7 +164,7 @@ describe('TeamParticipationTableComponent', () => {
         router = new MockRouter();
         return TestBed.configureTestingModule({
             imports: [ArtemisTestModule, ArtemisDataTableModule, MockModule(NgxDatatableModule), MockModule(RouterModule), MockModule(NgbModule)],
-            declarations: [TeamParticipationTableComponent, MockPipe(ArtemisTranslatePipe), MockPipe(ArtemisDatePipe)],
+            declarations: [TeamParticipationTableComponent, MockPipe(ArtemisTranslatePipe), MockPipe(ArtemisDatePipe), MockDirective(TranslateDirective)],
             providers: [
                 MockProvider(TranslateService),
                 ExerciseService,
