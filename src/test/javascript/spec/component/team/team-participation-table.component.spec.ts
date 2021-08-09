@@ -29,6 +29,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
 import { ArtemisDatePipe } from 'app/shared/pipes/artemis-date.pipe';
 import { TranslateDirective } from 'app/shared/language/translate.directive';
+import { ArtemisDataTableModule } from 'app/shared/data-table/data-table.module';
 
 chai.use(sinonChai);
 const expect = chai.expect;
