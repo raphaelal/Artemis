@@ -63,12 +63,10 @@ import { ExtensionPointDirective } from 'app/shared/extension-point/extension-po
 import { MockHasAnyAuthorityDirective } from '../../helpers/mocks/directive/mock-has-any-authority.directive';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { AssessmentWarningComponent } from 'app/assessment/assessment-warning/assessment-warning.component';
-import { TranslateTestingModule } from '../../helpers/mocks/service/mock-translate.service';
+import { MockTranslateService, TranslateTestingModule } from '../../helpers/mocks/service/mock-translate.service';
 import { ComplaintService } from 'app/complaints/complaint.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AssessmentType } from 'app/entities/assessment-type.model';
-import { getLinkToSubmissionAssessment } from 'app/utils/navigation.utils';
-import { MockTranslateValuesDirective } from '../../helpers/mocks/directive/mock-translate-values.directive';
+import { TranslateService } from '@ngx-translate/core';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -223,6 +221,7 @@ describe('ExerciseAssessmentDashboardComponent', () => {
         { provide: ActivatedRoute, useValue: route },
         { provide: LocalStorageService, useClass: MockSyncStorage },
         { provide: SessionStorageService, useClass: MockSyncStorage },
+        { provide: TranslateService, useClass: MockTranslateService },
     ];
 
     beforeEach(() => {
