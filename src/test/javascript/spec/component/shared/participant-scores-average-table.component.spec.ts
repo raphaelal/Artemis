@@ -15,6 +15,7 @@ import { By } from '@angular/platform-browser';
 import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
 import { BaseEntity } from 'app/shared/model/base-entity';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { TranslateDirective } from 'app/shared/language/translate.directive';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -25,8 +26,14 @@ describe('ParticipantScoresAverageTable', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ArtemisTestModule, ArtemisDataTableModule, NgxDatatableModule, NgbTooltipModule, TranslateModule.forRoot()],
-            declarations: [ParticipantScoresAverageTableComponent, MockPipe(ArtemisTranslatePipe)],
+            imports: [ArtemisTestModule, NgxDatatableModule, NgbTooltipModule, TranslateModule.forRoot()],
+            declarations: [
+                ParticipantScoresAverageTableComponent,
+                MockDirective(TranslateDirective),
+                MockPipe(ArtemisTranslatePipe),
+                DataTableComponent,
+                MockDirective(NgbTypeahead),
+            ],
             providers: [
                 { provide: LocalStorageService, useClass: MockSyncStorage },
                 {
