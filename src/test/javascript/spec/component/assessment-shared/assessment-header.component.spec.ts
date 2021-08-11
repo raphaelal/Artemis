@@ -17,13 +17,8 @@ import { TranslateDirective, TranslateService } from '@ngx-translate/core';
 import { TextAssessmentEventType } from 'app/entities/text-assesment-event.model';
 import { NgbAlert, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
+import { MockTranslateValuesDirective } from '../course/course-scores/course-scores.component.spec';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { GradingSystemService } from 'app/grading-system/grading-system.service';
-import { GradingScale } from 'app/entities/grading-scale.model';
-import { HttpResponse } from '@angular/common/http';
-import { GradeStep } from 'app/entities/grade-step.model';
-import { of } from 'rxjs';
-import { MockTranslateValuesDirective } from '../../helpers/mocks/directive/mock-translate-values.directive';
 
 describe('AssessmentHeaderComponent', () => {
     let component: AssessmentHeaderComponent;
@@ -53,8 +48,8 @@ describe('AssessmentHeaderComponent', () => {
                 AssessmentHeaderComponent,
                 AssessmentWarningComponent,
                 AlertComponent,
-                MockComponent(NgbAlert),
-                MockDirective(NgbTooltip),
+                NgbAlert,
+                NgbTooltip,
                 TranslateDirective,
                 ArtemisTranslatePipe,
                 MockTranslateValuesDirective,
@@ -107,12 +102,11 @@ describe('AssessmentHeaderComponent', () => {
 
     it('should display alerts', () => {
         const alertService = TestBed.inject(AlertService);
-        alertService.success('test-alert-string');
+        const testAlert = 'test-alert-string';
+        const alert = alertService.success(testAlert);
         fixture.detectChanges();
 
-        const jhiAlertComponent = fixture.debugElement.query(By.directive(AlertComponent));
-        const jhiAlertContent = jhiAlertComponent.nativeElement.textContent;
-        expect(jhiAlertContent).toContain('test-alert-string');
+        expect(alert.message).toBe(testAlert);
     });
 
     it('should display warning when assessment due date has not passed', () => {
