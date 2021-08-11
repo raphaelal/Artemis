@@ -18,12 +18,13 @@ import { ButtonComponent } from 'app/shared/components/button.component';
 import { MockProgrammingExercisePagingService } from '../../helpers/mocks/service/mock-programming-exercise-paging.service';
 import { ArtemisTranslatePipe } from 'app/shared/pipes/artemis-translate.pipe';
 import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
+import { NgModel } from '@angular/forms';
+import { SortDirective } from 'app/shared/sort/sort.directive';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { SortByDirective } from 'app/shared/sort/sort-by.directive';
 import { NgbHighlight, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ExerciseCourseTitlePipe } from 'app/shared/pipes/exercise-course-title.pipe';
-import { NgModel } from '@angular/forms';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { JhiSortByDirective, JhiSortDirective, JhiTranslateDirective } from 'ng-jhipster';
-import * as sinon from 'sinon';
+import { TranslateDirective } from 'app/shared/language/translate.directive';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -47,15 +48,14 @@ describe('ProgrammingExerciseImportComponent', () => {
                 ButtonComponent,
                 MockPipe(ArtemisTranslatePipe),
                 MockDirective(NgModel),
+                MockDirective(SortDirective),
                 MockComponent(FaIconComponent),
+                MockDirective(SortByDirective),
                 MockDirective(NgbHighlight),
                 NgbPagination, // do not mock this directive as we need it for the test
                 MockPipe(ExerciseCourseTitlePipe),
                 MockDirective(NgbTooltip),
                 MockDirective(TranslateDirective),
-                MockDirective(JhiSortByDirective),
-                MockDirective(JhiSortDirective),
-                MockDirective(JhiTranslateDirective),
             ],
             providers: [
                 DifferencePipe,
@@ -72,10 +72,6 @@ describe('ProgrammingExerciseImportComponent', () => {
                 pagingService = debugElement.injector.get(ProgrammingExercisePagingService);
                 pagingStub = sinon.stub(pagingService, 'searchForExercises');
             });
-    });
-
-    afterEach(() => {
-        sinon.restore();
     });
 
     it('should parse the pageable search result into the correct state', fakeAsync(() => {
