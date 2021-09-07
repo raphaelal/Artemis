@@ -38,7 +38,7 @@ import { QuizSubmission } from 'app/entities/quiz/quiz-submission.model';
 import { ModelingSubmission } from 'app/entities/modeling-submission.model';
 import { ProgrammingSubmission } from 'app/entities/programming-submission.model';
 import { IncludedInScoreBadgeComponent } from 'app/exercises/shared/exercise-headers/included-in-score-badge.component';
-import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
+import { ComplaintsStudentViewComponent } from 'app/complaints/complaints-for-students/complaints-student-view.component';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -100,7 +100,7 @@ function sharedSetup(url: string[]) {
                 MockComponent(ModelingExamSummaryComponent),
                 MockComponent(TextExamSummaryComponent),
                 MockComponent(FileUploadExamSummaryComponent),
-                MockComponent(ComplaintStudentViewComponent),
+                MockComponent(ComplaintsStudentViewComponent),
                 MockDirective(JhiTranslateDirective),
                 MockPipe(ArtemisTranslatePipe),
                 MockPipe(HtmlForMarkdownPipe),

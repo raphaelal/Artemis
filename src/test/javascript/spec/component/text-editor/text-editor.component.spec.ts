@@ -40,7 +40,7 @@ import { Participation } from 'app/entities/participation/participation.model';
 import { Exercise } from 'app/entities/exercise.model';
 import { Submission } from 'app/entities/submission.model';
 import { HtmlForMarkdownPipe } from 'app/shared/pipes/html-for-markdown.pipe';
-import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
+import { ComplaintsStudentViewComponent } from 'app/complaints/complaints-for-students/complaints-student-view.component';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -87,7 +87,7 @@ describe('TextEditorComponent', () => {
                 MockComponent(ButtonComponent),
                 MockComponent(TextResultComponent),
                 MockComponent(ComplaintsFormComponent),
-                MockComponent(ComplaintStudentViewComponent),
+                MockComponent(ComplaintsStudentViewComponent),
                 MockPipe(HtmlForMarkdownPipe),
             ],
             providers: [

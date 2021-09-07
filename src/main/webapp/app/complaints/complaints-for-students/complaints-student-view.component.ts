@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Exercise } from 'app/entities/exercise.model';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { Complaint, ComplaintType } from 'app/entities/complaint.model';
 import { ComplaintService } from 'app/complaints/complaint.service';
 import { StudentParticipation } from 'app/entities/participation/student-participation.model';
@@ -12,36 +13,33 @@ import { Exam } from 'app/entities/exam.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Submission } from 'app/entities/submission.model';
 import { filter } from 'rxjs/operators';
-import { Moment } from 'moment';
 
 @Component({
     selector: 'jhi-complaint-student-view',
-    templateUrl: './complaint-student-view.component.html',
+    templateUrl: './complaints-student-view.component.html',
 })
-export class ComplaintStudentViewComponent implements OnInit {
+export class ComplaintsStudentViewComponent implements OnInit {
     @Input() exercise: Exercise;
     @Input() participation: StudentParticipation;
     @Input() result: Result;
     @Input() exam: Exam;
     // flag to indicate exam test run. Default set to false.
     @Input() testRun = false;
-    isCurrentUserSubmissionAuthor: boolean;
-
-    isExamMode: boolean;
 
     submission: Submission;
     complaint: Complaint;
+    course?: Course;
     // Indicates what type of complaint is currently created by the student. Undefined if the student didn't click on a button yet.
     formComplaintType?: ComplaintType;
     // the number of complaints that the student is still allowed to submit in the course. this is used for disabling the complain button.
     numberOfAllowedComplaints = 0;
+    isCurrentUserSubmissionAuthor: boolean;
+    isExamMode: boolean;
+    showComplaintsSection: boolean;
+    timeOfFeedbackRequestValid: boolean;
+    timeOfComplaintValid: boolean;
+
     ComplaintType = ComplaintType;
-
-    showComplaintsSection = false;
-    timeOfFeedbackRequestValid = false;
-    timeOfComplaintValid = false;
-
-    course?: Course;
 
     constructor(
         private complaintService: ComplaintService,
@@ -56,47 +54,30 @@ export class ComplaintStudentViewComponent implements OnInit {
     ngOnInit(): void {
         this.course = this.exercise.course;
         this.isExamMode = this.exam != undefined;
-        if (this.isExamMode) {
-            this.initForExam();
-        } else if (this.course) {
-            this.initForCourse();
+        if (this.participation?.id && this.participation.results && this.participation.results.length > 0) {
+            // Make sure results and participation are connected
+            this.result = this.participation.results[0];
+            this.result.participation = this.participation;
         }
         if (this.participation.submissions && this.participation.submissions.length > 0) {
             this.submission = this.participation.submissions[0];
         }
+        // for normal exercises we track the number of allowed complaints
+        if (this.course?.complaintsEnabled) {
+            this.complaintService.getNumberOfAllowedComplaintsInCourse(this.course!.id!, this.exercise.teamMode).subscribe((allowedComplaints: number) => {
+                this.numberOfAllowedComplaints = allowedComplaints;
+            });
+        }
         this.loadPotentialComplaint();
         this.accountService.identity().then((user) => {
-            if (this.participation && this.participation.student && user && user.id) {
+            if (this.participation && this.participation.student && user?.id) {
                 this.isCurrentUserSubmissionAuthor = this.participation.student.id === user.id;
             }
         });
 
         this.timeOfFeedbackRequestValid = this.isTimeOfFeedbackRequestValid();
         this.timeOfComplaintValid = this.isTimeOfComplaintValid();
-
-        if (
-            (this.isExamMode && !this.timeOfComplaintValid && !this.complaint) ||
-            (!this.isExamMode && (this.course?.complaintsEnabled || this.course?.requestMoreFeedbackEnabled))
-        ) {
-            this.showComplaintsSection = true;
-        }
-    }
-
-    private initForExam(): void {
-        if (this.participation?.id && this.exercise && this.participation.results && this.participation.results.length > 0) {
-            // Make sure results and participation are connected
-            this.result = this.participation.results[0];
-            this.result.participation = this.participation;
-        }
-    }
-
-    private initForCourse(): void {
-        // for normal exercises we track the number of allowed complaints
-        if (this.course!.complaintsEnabled) {
-            this.complaintService.getNumberOfAllowedComplaintsInCourse(this.course!.id!, this.exercise.teamMode).subscribe((allowedComplaints: number) => {
-                this.numberOfAllowedComplaints = allowedComplaints;
-            });
-        }
+        this.showComplaintsSection = this.isShowComplaintsSection();
     }
 
     loadPotentialComplaint(): void {
@@ -119,11 +100,10 @@ export class ComplaintStudentViewComponent implements OnInit {
      * submitted before the assessment due date, the assessment due date is checked, as the student can only see the result after the assessment due date.
      */
     private isTimeOfComplaintValid(): boolean {
-        if (this.isExamMode) {
-            if (!!this.result && !!this.result.completionDate) {
+        if (this.result?.completionDate) {
+            if (this.isExamMode) {
                 return this.testRun || this.isWithinExamReviewPeriod();
             }
-        } else if (this.result?.completionDate) {
             return this.isCompletionDateWithinCourseReviewPeriod(this.result.completionDate);
         }
         return false;
@@ -137,6 +117,13 @@ export class ComplaintStudentViewComponent implements OnInit {
             return this.isCompletionDateWithinCourseReviewPeriod(this.result.completionDate);
         }
         return false;
+    }
+
+    private isShowComplaintsSection(): boolean {
+        return !!(
+            (this.isExamMode && (this.isTimeOfComplaintValid() || this.complaint)) ||
+            (!this.isExamMode && (this.course?.complaintsEnabled || this.course?.requestMoreFeedbackEnabled))
+        );
     }
 
     /**

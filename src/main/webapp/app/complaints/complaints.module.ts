@@ -5,14 +5,14 @@ import { MomentModule } from 'ngx-moment';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ComplaintService } from 'app/complaints/complaint.service';
 import { ArtemisSharedModule } from 'app/shared/shared.module';
-import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
+import { ComplaintsStudentViewComponent } from 'app/complaints/complaints-for-students/complaints-student-view.component';
 import { ComplaintRequestComponent } from 'app/complaints/request/complaint-request.component';
 import { ComplaintResponseComponent } from 'app/complaints/response/complaint-response.component';
 
 @NgModule({
     imports: [ArtemisSharedModule, MomentModule, ClipboardModule],
-    declarations: [ComplaintsFormComponent, ComplaintStudentViewComponent, ComplaintRequestComponent, ComplaintResponseComponent],
-    exports: [ComplaintStudentViewComponent],
+    declarations: [ComplaintsFormComponent, ComplaintsStudentViewComponent, ComplaintRequestComponent, ComplaintResponseComponent],
+    exports: [ComplaintsStudentViewComponent],
     providers: [ComplaintService],
 })
 export class ArtemisComplaintsModule {}

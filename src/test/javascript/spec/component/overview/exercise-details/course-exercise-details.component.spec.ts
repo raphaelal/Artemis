@@ -54,7 +54,7 @@ import { MockTranslateService } from '../../../helpers/mocks/service/mock-transl
 import { ComplaintService, EntityResponseType } from 'app/complaints/complaint.service';
 import { ArtemisNavigationUtilService } from 'app/utils/navigation.utils';
 import { MockRouter } from '../../../helpers/mocks/service/mock-route.service';
-import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
+import { ComplaintsStudentViewComponent } from 'app/complaints/complaints-for-students/complaints-student-view.component';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -109,7 +109,7 @@ describe('CourseExerciseDetailsComponent', () => {
                 MockComponent(ProgrammingExerciseInstructionComponent),
                 MockComponent(ResultHistoryComponent),
                 MockComponent(ResultComponent),
-                MockComponent(ComplaintStudentViewComponent),
+                MockComponent(ComplaintsStudentViewComponent),
                 MockComponent(RatingComponent),
                 RouterLinkSpy,
             ],
