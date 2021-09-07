@@ -7,7 +7,7 @@ import { MockComplaintResponse, MockComplaintService } from '../../helpers/mocks
 import { MomentModule } from 'ngx-moment';
 import { DebugElement } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComplaintsComponent } from 'app/complaints/complaints.component';
+import { ComplaintsFormComponent } from 'app/complaints/form/complaints-form.component';
 import { ArtemisTestModule } from '../../test.module';
 import { ArtemisSharedModule } from 'app/shared/shared.module';
 import { Exercise } from 'app/entities/exercise.model';
@@ -15,14 +15,14 @@ import { Exercise } from 'app/entities/exercise.model';
 const expect = chai.expect;
 describe('ComplaintsComponent', () => {
     const exercise: Exercise = { id: 1, teamMode: false } as Exercise;
-    let comp: ComplaintsComponent;
-    let fixture: ComponentFixture<ComplaintsComponent>;
+    let comp: ComplaintsFormComponent;
+    let fixture: ComponentFixture<ComplaintsFormComponent>;
     let debugElement: DebugElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [TranslateModule.forRoot(), ArtemisTestModule, ArtemisSharedModule, MomentModule],
-            declarations: [ComplaintsComponent],
+            declarations: [ComplaintsFormComponent],
             providers: [
                 {
                     provide: ComplaintService,
@@ -33,7 +33,7 @@ describe('ComplaintsComponent', () => {
             .overrideModule(ArtemisTestModule, { set: { declarations: [], exports: [] } })
             .compileComponents()
             .then(() => {
-                fixture = TestBed.createComponent(ComplaintsComponent);
+                fixture = TestBed.createComponent(ComplaintsFormComponent);
                 comp = fixture.componentInstance;
                 comp.exercise = exercise;
                 debugElement = fixture.debugElement;
