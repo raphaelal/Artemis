@@ -13,7 +13,6 @@ import { ExamPointsSummaryComponent } from 'app/exam/participate/summary/points-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JhiTranslateDirective } from 'ng-jhipster';
 import { ResultComponent } from 'app/exercises/shared/result/result.component';
-import { ComplaintInteractionsComponent } from 'app/complaints/complaint-interactions.component';
 import { ProgrammingExamSummaryComponent } from 'app/exam/participate/summary/exercises/programming-exam-summary/programming-exam-summary.component';
 import { FileUploadExamSummaryComponent } from 'app/exam/participate/summary/exercises/file-upload-exam-summary/file-upload-exam-summary.component';
 import { QuizExamSummaryComponent } from 'app/exam/participate/summary/exercises/quiz-exam-summary/quiz-exam-summary.component';
@@ -39,6 +38,7 @@ import { QuizSubmission } from 'app/entities/quiz/quiz-submission.model';
 import { ModelingSubmission } from 'app/entities/modeling-submission.model';
 import { ProgrammingSubmission } from 'app/entities/programming-submission.model';
 import { IncludedInScoreBadgeComponent } from 'app/exercises/shared/exercise-headers/included-in-score-badge.component';
+import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -100,7 +100,7 @@ function sharedSetup(url: string[]) {
                 MockComponent(ModelingExamSummaryComponent),
                 MockComponent(TextExamSummaryComponent),
                 MockComponent(FileUploadExamSummaryComponent),
-                MockComponent(ComplaintInteractionsComponent),
+                MockComponent(ComplaintStudentViewComponent),
                 MockDirective(JhiTranslateDirective),
                 MockPipe(ArtemisTranslatePipe),
                 MockPipe(HtmlForMarkdownPipe),

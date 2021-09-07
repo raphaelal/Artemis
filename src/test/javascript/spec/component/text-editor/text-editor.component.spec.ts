@@ -19,7 +19,6 @@ import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { MockSyncStorage } from '../../helpers/mocks/service/mock-sync-storage.service';
 import { MockComponent, MockPipe } from 'ng-mocks';
 import { TextResultComponent } from 'app/exercises/text/participate/text-result/text-result.component';
-import { ComplaintInteractionsComponent } from 'app/complaints/complaint-interactions.component';
 import { SubmissionResultStatusComponent } from 'app/overview/submission-result-status.component';
 import { TextEditorComponent } from 'app/exercises/text/participate/text-editor.component';
 import { textEditorRoute } from 'app/exercises/text/participate/text-editor.route';
@@ -41,6 +40,7 @@ import { Participation } from 'app/entities/participation/participation.model';
 import { Exercise } from 'app/entities/exercise.model';
 import { Submission } from 'app/entities/submission.model';
 import { HtmlForMarkdownPipe } from 'app/shared/pipes/html-for-markdown.pipe';
+import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -87,7 +87,7 @@ describe('TextEditorComponent', () => {
                 MockComponent(ButtonComponent),
                 MockComponent(TextResultComponent),
                 MockComponent(ComplaintsFormComponent),
-                MockComponent(ComplaintInteractionsComponent),
+                MockComponent(ComplaintStudentViewComponent),
                 MockPipe(HtmlForMarkdownPipe),
             ],
             providers: [

@@ -3,7 +3,6 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ComplaintInteractionsComponent } from 'app/complaints/complaint-interactions.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { User } from 'app/core/user/user.model';
 import { JhiWebsocketService } from 'app/core/websocket/websocket.service';
@@ -55,6 +54,7 @@ import { MockTranslateService } from '../../../helpers/mocks/service/mock-transl
 import { ComplaintService, EntityResponseType } from 'app/complaints/complaint.service';
 import { ArtemisNavigationUtilService } from 'app/utils/navigation.utils';
 import { MockRouter } from '../../../helpers/mocks/service/mock-route.service';
+import { ComplaintStudentViewComponent } from 'app/complaints/complaints-for-students/complaint-student-view.component';
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -109,7 +109,7 @@ describe('CourseExerciseDetailsComponent', () => {
                 MockComponent(ProgrammingExerciseInstructionComponent),
                 MockComponent(ResultHistoryComponent),
                 MockComponent(ResultComponent),
-                MockComponent(ComplaintInteractionsComponent),
+                MockComponent(ComplaintStudentViewComponent),
                 MockComponent(RatingComponent),
                 RouterLinkSpy,
             ],
