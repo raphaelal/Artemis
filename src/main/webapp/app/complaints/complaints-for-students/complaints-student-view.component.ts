@@ -102,7 +102,7 @@ export class ComplaintsStudentViewComponent implements OnInit {
     private isTimeOfComplaintValid(): boolean {
         if (this.result?.completionDate) {
             if (this.isExamMode) {
-                return this.testRun || this.isWithinExamReviewPeriod();
+                return this.isWithinExamReviewPeriod();
             }
             return this.isCompletionDateWithinCourseReviewPeriod(this.result.completionDate);
         }
@@ -120,10 +120,11 @@ export class ComplaintsStudentViewComponent implements OnInit {
     }
 
     private isShowComplaintsSection(): boolean {
-        return !!(
-            (this.isExamMode && (this.isTimeOfComplaintValid() || this.complaint)) ||
-            (!this.isExamMode && (this.course?.complaintsEnabled || this.course?.requestMoreFeedbackEnabled))
-        );
+        if (this.isExamMode) {
+            return this.isTimeOfComplaintValid() || !!this.complaint;
+        } else {
+            return !!(this.course?.complaintsEnabled || this.course?.requestMoreFeedbackEnabled);
+        }
     }
 
     /**
