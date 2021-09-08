@@ -29,7 +29,6 @@ export class ArtemisServerDateService implements ServerDateService {
         this.recentClientDates = new Array<moment.Moment>();
     }
 
-
     /**
      * get a new server date if necessary
      */
