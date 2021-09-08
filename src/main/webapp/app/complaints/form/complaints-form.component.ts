@@ -45,7 +45,7 @@ export class ComplaintsFormComponent implements OnInit {
                 this.submit.emit();
             },
             (err: HttpErrorResponse) => {
-                if (err && err.error && err.error.errorKey === 'toomanycomplaints') {
+                if (err?.error?.errorKey === 'toomanycomplaints') {
                     this.jhiAlertService.error('artemisApp.complaint.tooManyComplaints', { maxComplaintNumber: this.maxComplaintsPerCourse });
                 } else {
                     onError(this.jhiAlertService, err);
