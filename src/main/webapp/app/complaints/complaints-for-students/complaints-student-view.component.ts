@@ -80,6 +80,9 @@ export class ComplaintsStudentViewComponent implements OnInit {
         this.showComplaintsSection = this.isShowComplaintsSection();
     }
 
+    /**
+     * Sets the complaint if a complaint and a valid result exists
+     */
     loadPotentialComplaint(): void {
         if (this.result && this.result.completionDate) {
             this.complaintService
@@ -119,6 +122,9 @@ export class ComplaintsStudentViewComponent implements OnInit {
         return false;
     }
 
+    /**
+     * Determines whether or not to show the complaint section
+     */
     private isShowComplaintsSection(): boolean {
         if (this.isExamMode) {
             return this.isTimeOfComplaintValid() || !!this.complaint;
